@@ -1,0 +1,21 @@
+//posts
+export const GET_EVENT = "GET_EVENT"
+export const GET_EVENT_TYPE = "GET_EVENT_TYPE"
+export const GET_EVENT_CATEGORY = "GET_EVENT_CATEGORY"
+
+// competitions
+export const GET_COMPETIONOS = 'GET_COMPETIONOS'
+export const GET_COMPETIONOS_CATEGORY = 'GET_COMPETIONOS_CATEGORY'
+export const GET_COMPETIONOS_CITY= 'GET_COMPETIONOS_CITY'
+
+// projects
+export const GET_PROJECTS= 'GET_PROJECTS'
+export const GET_PROJECTS_CATEGORY = 'GET_PROJECTS_CATEGORY'
+export const GET_PROJECTS_CITY= 'GET_PROJECTS_CITY'
+
+//filter
+export const INPUT_SERCH = "INPUT_SERCH"
+export const SET_CATEGORIES_ID = "SET_CATEGORIES_ID"
+export const SET_EVENT_ID = "SET_EVENT_ID"
+
+export const LOGIN = "LOGIN"
