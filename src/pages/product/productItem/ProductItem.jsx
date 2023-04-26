@@ -1,16 +1,16 @@
 import React from 'react';
 
-const OrderItem = ({ order }) => {
+const ProductItem = ({ product }) => {
     return (
         <div className="executor-card container">
             <div className="executor-card__info">
-                <p className="executor-card__position">{order.customer}</p>
-                <p className="executor-card__position">{order.total_amount}</p>
-                <p className="executor-card__position">{order.products}</p>
-                <p className="executor-card__phone">{order.created_at} </p>
+                <p className="executor-card__phone">{product.name}</p>
+                <p className="executor-card__phone">{product.description}</p>
+                <p className="executor-card__phone">{product.price}</p>
+                <p className="executor-card__phone">{product.executor}</p>
             </div>
         </div>
     );
 };
 
-export default OrderItem;
+export default ProductItem;

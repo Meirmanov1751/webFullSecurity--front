@@ -1,46 +1,41 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
-import {EventsReducer} from "./reducers/events-reducer";
-import {FilterReducer} from "./reducers/filter-reducer";
-import {CompetitionsReducer} from "./reducers/competitions-reducer";
-import {ProjectsReducer} from "./reducers/projects-reducer";
 import {makeAutoObservable} from "mobx";
 import AuthService from "../service/AuthService";
 import axios from "axios";
-import {BASE_URL} from "../store/api";
-import {CrowdfundingReducer} from "./reducers/crowdfunding-reducer";
+import {BASE_URL} from "./api";
+import Executor from "./reducers/executor";
+import Customer from "./reducers/customer";
+import Order from "./reducers/order";
+import Product from "./reducers/product";
+import Posts from "./reducers/posts";
 
 let reducers = combineReducers({
-  events: EventsReducer,
-  competitions: CompetitionsReducer,
-  projects: ProjectsReducer,
-  filter: FilterReducer,
-  crowdfunding: CrowdfundingReducer
+    executors: Executor, customers: Customer, orders: Order, products: Product, posts: Posts,
 })
 
 export let store = createStore(reducers, compose(applyMiddleware(thunk)))
 
 
-
 export default class Store {
-  user = {} ;
-  isAuth = false;
+    user = {};
+    isAuth = false;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    constructor() {
+        makeAutoObservable(this);
+    }
 
-  setAuth(bool: boolean) {
-    this.isAuth = bool;
-  }
+    setAuth(bool) {
+        this.isAuth = bool;
+    }
 
-  setUser(user: IUser) {
-    this.user = user;
-  }
+    setUser(user) {
+        this.user = user;
+    }
 
   async login(username, password) {
     try {
-      const response: any = await AuthService.login(username, password);
+      const response = await AuthService.login(username, password);
       console.log(response.data['auth_token'])
       localStorage.setItem('token', response.data['auth_token']);
       this.setAuth(true)
@@ -52,10 +47,10 @@ export default class Store {
 
   async registration(username,password) {
     try {
-      const response: any = await AuthService.registration(username, password);
+      const response = await AuthService.registration(username, password);
       localStorage.setItem('token', response.data['auth_token']);
       this.setAuth(true)
-      this.setUser(response.data.user)
+      this.setUser(response)
     } catch (e) {
       console.log(e.response?.data?.message)
     }
@@ -72,15 +67,17 @@ export default class Store {
     }
   }
 
-  async checkAuth() {
-    try {
+    async checkAuth() {
+        try {
 
-      const response = await axios.get(`${BASE_URL}auth/jwt/refresh`, {withCredentials: true})
-      localStorage.setItem('token', response.data['auth_token']);
-      this.setAuth(true)
-      this.setUser(response.data.user)
-    } catch (e) {
-      console.log(e.response.data.message)
+            const response = await axios.get(`${BASE_URL}auth/jwt/refresh`, {withCredentials: true})
+            localStorage.setItem('token', response.data['auth_token']);
+            this.setAuth(true)
+            this.setUser(response.data.user)
+        } catch (e) {
+            console.log(e.response.data.message)
+        }
+
     }
-  }
+
 }

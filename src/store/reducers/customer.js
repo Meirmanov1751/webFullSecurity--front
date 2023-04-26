@@ -1,14 +1,13 @@
 import { combineReducers } from 'redux';
 import {
-    FETCH_EXECUTORS_REQUEST,
-    FETCH_EXECUTORS_SUCCESS,
-    FETCH_EXECUTORS_FAILURE
+    FETCH_CUSTOMERS_SUCCESS,
+    FETCH_CUSTOMERS_REQUEST,
+    FETCH_CUSTOMERS_FAILURE
 } from './../const';
 
 const items = (state = [], action) => {
-    debugger
     switch (action.type) {
-        case FETCH_EXECUTORS_SUCCESS:
+        case FETCH_CUSTOMERS_SUCCESS:
             return action.payload;
         default:
             return state;
@@ -17,10 +16,10 @@ const items = (state = [], action) => {
 
 const isFetching = (state = false, action) => {
     switch (action.type) {
-        case FETCH_EXECUTORS_REQUEST:
+        case FETCH_CUSTOMERS_REQUEST:
             return true;
-        case FETCH_EXECUTORS_SUCCESS:
-        case FETCH_EXECUTORS_FAILURE:
+        case FETCH_CUSTOMERS_SUCCESS:
+        case FETCH_CUSTOMERS_FAILURE:
             return false;
         default:
             return state;
@@ -29,10 +28,10 @@ const isFetching = (state = false, action) => {
 
 const error = (state = null, action) => {
     switch (action.type) {
-        case FETCH_EXECUTORS_FAILURE:
+        case FETCH_CUSTOMERS_FAILURE:
             return action.payload;
-        case FETCH_EXECUTORS_REQUEST:
-        case FETCH_EXECUTORS_SUCCESS:
+        case FETCH_CUSTOMERS_REQUEST:
+        case FETCH_CUSTOMERS_SUCCESS:
             return null;
         default:
             return state;

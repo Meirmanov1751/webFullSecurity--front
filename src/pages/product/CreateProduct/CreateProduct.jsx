@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import instance from "../../../store/api";
 
-const CreateOrderPage = () => {
-    const [customer, setCustomer] = useState(null);
-    const [products, setProducts] = useState([]);
+const CreateProductPage = () => {
+    const [executor, setExecutor] = useState(1);
+    const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [count, setCount] = useState(1);
-    const [totalAmount, setTotalAmount] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [isAvailable, setIsAvailable] = useState(true);
 
     const handleSubmit = (e) => {
-        e.preventDefault();
         const payload = {
-            customer,
-            products,
+            executor,
+            name,
             description,
-            count,
-            total_amount: totalAmount
+            price,
+            is_available: isAvailable
         };
-        axios.post('/api/orders/', payload)
+        instance.post('/api/product/product/', payload)
             .then(response => {
                 console.log(response.data);
-                // здесь можно выполнить перенаправление на страницу заказа или другую страницу
+                // здесь можно выполнить перенаправление на страницу продукта или другую страницу
             })
             .catch(error => {
                 console.error(error);
@@ -30,36 +29,28 @@ const CreateOrderPage = () => {
 
     return (
         <div className="container mt-5">
-            <h1>Создать заказ</h1>
+            <h1>Создать продукт</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="customer">Заказчик:</label>
-                    <input type="text" id="customer" name="customer" className="form-control" onChange={(e) => setCustomer(e.target.value)} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="products">Продукты:</label>
-                    <select multiple id="products" name="products" className="form-control" onChange={(e) => setProducts(Array.from(e.target.selectedOptions, option => option.value))}>
-                        <option value="1">Продукт 1</option>
-                        <option value="2">Продукт 2</option>
-                        <option value="3">Продукт 3</option>
-                    </select>
+                    <label htmlFor="name">Название:</label>
+                    <input type="text" id="name" name="name" className="form-control" onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="description">Описание:</label>
                     <textarea id="description" name="description" className="form-control" onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="count">Количество:</label>
-                    <input type="number" id="count" name="count" min="1" className="form-control" onChange={(e) => setCount(e.target.value)} />
+                    <label htmlFor="price">Цена:</label>
+                    <input type="number" id="price" name="price" min="0" step="0.01" className="form-control" onChange={(e) => setPrice(e.target.value)} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="totalAmount">Итоговая сумма:</label>
-                    <input type="number" id="totalAmount" name="totalAmount" min="0" step="0.01" className="form-control" onChange={(e) => setTotalAmount(e.target.value)} />
+                <div className="form-group form-check">
+                    <input type="checkbox" id="isAvailable" name="isAvailable" className="form-check-input" checked={isAvailable} onChange={(e) => setIsAvailable(e.target.checked)} />
+                    <label htmlFor="isAvailable" className="form-check-label">Доступен</label>
                 </div>
-                <button type="submit" className="btn btn-primary">Создать заказ</button>
+                <button type="submit" className="btn mt-4 btn-primary">Создать продукт</button>
             </form>
         </div>
     );
 };
 
-export default CreateOrderPage;
+export default CreateProductPage;

@@ -1,29 +1,29 @@
 import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import CustomerItem from './customerItem/CustomerItem';
-import './customer.css'
-import {fetchCustomer} from "../../store/action.creators/customer";
+import OrderItem from './orderItem/OrderItem';
+import './order.css'
+import {fetchOrder} from "../../store/action.creators/order";
 
-const CustomerList = ({ companyId }) => {
+const OrderList = ({ companyId }) => {
     const dispatch = useDispatch();
-    const customer = useSelector((state) => state.customers.items);
+    const order = useSelector((state) => state.orders.items);
 
     useEffect(() => {
-        dispatch(fetchCustomer());
+        dispatch(fetchOrder());
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(fetchCustomer(companyId));
+        dispatch(fetchOrder(companyId));
     }, [dispatch, companyId]);
 
     return (
         <div>
             <h2>Список исполнителей</h2>
-            {customer.map(customer => (
-                <CustomerItem key={customer.id} customer={customer} />
+            {order.map(order => (
+                <OrderItem key={order.id} order={order} />
             ))}
         </div>
     );
 };
 
-export default CustomerList;
+export default OrderList;

@@ -1,36 +1,33 @@
 import {
-    FETCH_ORDER_SUCCESS,
-    FETCH_ORDER_FAILURE,
-    FETCH_ORDER_REQUEST
+    FETCH_POSTS_SUCCESS,
+    FETCH_POSTS_FAILURE,
+    FETCH_POSTS_REQUEST,
 } from './../const';
 import instance from "../api";
 
-export const fetchOrderRequest = () => ({
-    type: FETCH_ORDER_REQUEST,
+export const fetchPostsRequest = () => ({
+    type: FETCH_POSTS_REQUEST,
 });
 
-export const fetchOrderSuccess = (order) => ({
+export const fetchPostsSuccess = (posts) => ({
 
-    type: FETCH_ORDER_SUCCESS,
-    payload: order,
+    type: FETCH_POSTS_SUCCESS,
+    payload: posts,
 });
 
-export const fetchOrderFailure = (error) => ({
-    type: FETCH_ORDER_FAILURE,
+export const fetchPostsFailure = (error) => ({
+    type: FETCH_POSTS_FAILURE,
     payload: error,
 });
 
-export const fetchOrder = () => async (dispatch) => {
-    dispatch(fetchOrderRequest());
-
+export const fetchPosts = () => async (dispatch) => {
+    dispatch(fetchPostsRequest());
+    debugger
     try {
-        const response = await instance.get(`/api/order/order/`);
-        // const data = await response.json();
-        // console.log(data)
-
-        dispatch(fetchOrderSuccess(response.data.results));
+        const response = await instance.get(`/api/posts/posts/`);
+        dispatch(fetchPostsSuccess(response.data));
         debugger
     } catch (error) {
-        dispatch(fetchOrderFailure(error));
+        dispatch(fetchPostsFailure(error));
     }
 };

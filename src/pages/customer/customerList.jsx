@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react';
-import { fetchExecutors } from './../../store/action.creators/executor';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import ExecutorItem from './executorItem/ExecutorItem';
-import './executor.css'
+import CustomerItem from './customerItem/CustomerItem';
+import './customer.css'
+import {fetchCustomer} from "../../store/action.creators/customer";
 
-const ExecutorList = ({ companyId }) => {
+const CustomerList = ({companyId}) => {
     const dispatch = useDispatch();
-    const executors = useSelector((state) => state.executors.items);
-    debugger
+    const customer = useSelector((state) => state.customers.items);
+
     useEffect(() => {
-        dispatch(fetchExecutors());
+        dispatch(fetchCustomer());
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(fetchExecutors(companyId));
+        dispatch(fetchCustomer(companyId));
     }, [dispatch, companyId]);
 
     return (
         <div>
             <h2>Список исполнителей</h2>
-            {executors.map(executor => (
-                <ExecutorItem key={executor.id} executor={executor} />
+            {customer.map(customer => (
+                <CustomerItem key={customer.id} customer={customer}/>
             ))}
         </div>
     );
 };
 
-export default ExecutorList;
+export default CustomerList;
