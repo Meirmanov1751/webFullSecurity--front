@@ -4,20 +4,18 @@ import {observer} from "mobx-react-lite";
 import {ErrorMessage, Field, Formik} from "formik"
 import classes from '../auth.module.css'
 import {useNavigate} from "react-router";
+import {login} from "../../../store/action.creators/auth";
+import {useDispatch, useSelector} from "react-redux";
 
 const LoginForm = () => {
-    let {Store1} = useContext(Context)
+    var user = useSelector(state => state.auth)
     let navigate = useNavigate();
+    var dispatch = useDispatch()
 
-    useEffect(() => {
-        if (Store1.isAuth) {
-            return navigate("/");
-        }
-    }, [Store1.isAuth]);
 
     return (
         <div>
-            <h1 className={classes.title}>Вход</h1>
+            <h1 className={classes.title}>Кіру</h1>
             <Formik initialValues={{username: '', password: ''}}
                     validate={(values) => {
                         const errors = {};
@@ -40,7 +38,8 @@ const LoginForm = () => {
                         return errors;
                     }}
                     onSubmit={(values, {setSubmitting}) => {
-                        Store1.login(values.username, values.password);
+                        dispatch(login(values.username, values.password));
+                        debugger
                         setSubmitting(false);
                     }}>
                 {({
@@ -54,12 +53,12 @@ const LoginForm = () => {
                       /* and other goodies */
                   }) => (
                     <form className={classes.form} onSubmit={handleSubmit}>
-                        <Field className={classes.input} placeholder={'username'} type="username" name="username"/>
+                        <Field className={classes.input} placeholder={'email'} type="username" name="username"/>
                         <ErrorMessage name="username" component="div"/>
-                        <Field className={classes.input} placeholder={'password'} type="password" name="password"/>
+                        <Field className={classes.input} placeholder={'құпия сөз'} type="password" name="password"/>
                         <ErrorMessage name="password" component="div"/>
-                        <button className={classes.btn} type="submit" disabled={isSubmitting}>
-                            Submit
+                        <button className={classes.btn} type="Кіру" disabled={isSubmitting}>
+                            Кіру
                         </button>
                     </form>
                 )}

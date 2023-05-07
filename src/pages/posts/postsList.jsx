@@ -17,7 +17,7 @@ const PostsList = ({companyId}) => {
     }, [dispatch, companyId]);
 
     return (<div>
-            <h2>Список исполнителей</h2>
+            <h2>Жаналықтар</h2>
             {posts.map(posts => (<PostsItem key={posts.id} posts={posts}/>))}
         </div>);
 };

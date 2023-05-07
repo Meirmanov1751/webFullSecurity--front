@@ -18,7 +18,7 @@ const ExecutorList = ({ companyId }) => {
 
     return (
         <div>
-            <h2>Список исполнителей</h2>
+            <h2>Орындаушылар тізімі</h2>
             {executors.map(executor => (
                 <ExecutorItem key={executor.id} executor={executor} />
             ))}

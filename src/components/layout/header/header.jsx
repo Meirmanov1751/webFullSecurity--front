@@ -1,24 +1,32 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import './header.css'
 import {Link} from "react-router-dom";
-import {Context} from "../../../index";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../../../store/action.creators/auth";
 
 
 const LoginHeader = (props) => {
-    debugger
-    if (props.store.isAuth) {
+    var user = useSelector(state => state.auth.user)
+    console.log(user)
+    var dispatch = useDispatch()
+
+    function logoutHandler() {
+        dispatch(logout())
+    }
+
+    if (user) {
         return (
             <li className="nav-item">
-                <a className="nav-link" onClick={props.store.logout}>
-                    Выход
+                <a className="btn btn-primary" onClick={logoutHandler}>
+                    Шығу
                 </a>
             </li>
         )
     } else {
         return (
             <li className="nav-item">
-                <Link className="nav-link" to="login">
-                    Вход
+                <Link className="btn btn-primary" to="login">
+                    Кіру
                 </Link>
             </li>
         )
@@ -26,17 +34,20 @@ const LoginHeader = (props) => {
 }
 
 const Header = (props) => {
-    let {Store1} = useContext(Context)
+    var user = useSelector(state => state.auth.user)
+    var headerElemProduct = "";
+    var headerElemOrder = "";
 
-    useEffect(() => {
-        console.log(Store1.user)
-    }, [Store1])
+    if (user?.role) {
+        headerElemProduct = user.role == 'super_admin' || user.role == 'executor' || user.role == 'auditor';
+        headerElemOrder = user.role == 'super_admin' || user.role == 'customer' || user.role == 'auditor';
+    }
 
     return (
         <header className="header">
             <nav className="navbar navbar-expand-lg navbar-light">
 
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div className="navbar-collapse" id="navbarNav">
                     <div className="container">
                         <div className="nav-cont-ul">
 
@@ -52,65 +63,95 @@ const Header = (props) => {
                                         </svg>
                                     </Link>
                                 </div>
-                                <ul className="navbar-nav ml-auto">
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/">
-                                            Главная
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="executors">
-                                            Исполнители
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="customers">
-                                            Заказчики
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="orders">
-                                            Заказы
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="products">
-                                            Продукты
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="orders_create">
-                                            Создать заказ
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="products_create">
-                                            Добавить продукт
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="posts">
-                                            Посты
-                                        </Link>
-                                    </li>
-                                </ul>
+                                {
+                                    user ?
+                                        <ul className="navbar-nav ml-auto">
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="/">
+                                                    Басты бет
+                                                </Link>
+                                            </li>
+
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="posts">
+                                                    Жаналықтар
+                                                </Link>
+                                            </li>
+
+                                            {headerElemProduct?
+                                                <li className="nav-item">
+                                                    <Link className="nav-link" to="executors">
+                                                        Орындаушылар
+                                                    </Link>
+                                                </li>:null}
+
+                                            {headerElemOrder?
+                                                <li className="nav-item">
+                                                <Link className="nav-link" to="customers">
+                                                    Тұтынушылар
+                                                </Link>
+                                            </li>:null}
+
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="orders">
+                                                    Тапсырыстар
+                                                </Link>
+                                            </li>
+
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="products">
+                                                    Өнімдер
+                                                </Link>
+                                            </li>
+
+                                            {
+                                                user ?
+                                                    headerElemOrder ?
+                                                        <div style={{display: "flex"}}>
+                                                            <li className="nav-item">
+                                                                <Link className="nav-link" to="orders_create">
+                                                                    Тапсырыс жасау
+                                                                </Link>
+                                                            </li>
+
+                                                        </div>
+                                                        : null
+                                                    : null
+                                            }
+                                            {
+                                                user ?
+                                                    headerElemProduct ?
+                                                        <div style={{display: "flex"}}>
+                                                            <li className="nav-item">
+                                                                <Link className="nav-link" to="products_create">
+                                                                    Өнімді қосу
+                                                                </Link>
+                                                            </li>
+
+                                                        </div>: null
+                                                    : null
+                                            }
+                                        </ul> : null
+                                }
                             </div>
 
                             <ul className="navbar-nav ml-auto">
-                                <LoginHeader store={Store1}/>
-                                {/*<li className="nav-item">*/}
-                                {/*    <Link className="nav-link" to="login">*/}
-                                {/*        Вход*/}
-                                {/*    </Link>*/}
-                                {/*</li>*/}
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="singin">
-                                        Регистрация
+                                {/*{false ?*/}
+                                {/*    <li className="nav-item">*/}
+                                {/*        <Link className="nav-link" to="singin">*/}
+                                {/*            Тіркеу*/}
+                                {/*        </Link>*/}
+                                {/*    </li> : null*/}
+                                {/*}*/}
+                                <li className="nav-item" style={{maxWidth:"200px",marginRight: "10px" ,overflow: "hidden"}}>
+                                    <Link className="nav-link" to="profile">
+                                        {
+                                            user ? user.email : null
+                                        }
                                     </Link>
                                 </li>
+                                <LoginHeader user={user}/>
                             </ul>
-                            {/*<p className={"nav-link"}>{Store1.user.emall}</p>*/}
-
                         </div>
                     </div>
                 </div>

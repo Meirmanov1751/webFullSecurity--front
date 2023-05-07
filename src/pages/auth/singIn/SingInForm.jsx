@@ -1,18 +1,19 @@
 import React, {useContext} from 'react';
-import {Context} from "../../../index";
 import {ErrorMessage, Field, Formik} from "formik";
 import classes from '../auth.module.css'
-import {useNavigate} from "react-router";
-import {useEffect} from "react";
+import {register} from "../../../store/action.creators/auth";
+import {useDispatch} from "react-redux";
 
 const SingInForm = () => {
-    let {Store1} = useContext(Context)
-    let navigate = useNavigate();
+    var dispatch = useDispatch();
 
+    function singinHandler(email, password){
+        dispatch(register(email, password));
+    }
 
     return (
         <div>
-            <h1 className={classes.title}>Регистрация</h1>
+            <h1 className={classes.title}>Тіркеу</h1>
             <Formik initialValues={{username: '', password: '', password_repeat: ''}}
                     validate={(values) => {
                         const errors = {};
@@ -43,9 +44,8 @@ const SingInForm = () => {
                         return errors;
                     }}
                     onSubmit={(values, {setSubmitting}) => {
-                        Store1.registration(values.username, values.password);
+                        singinHandler(values.username, values.password)
                         setSubmitting(false);
-                        navigate("/login");
                     }}
             >
                 {({
@@ -66,8 +66,8 @@ const SingInForm = () => {
                         <Field className={classes.input} placeholder={'password repeat'} type="password"
                                name="password_repeat"/>
                         <ErrorMessage name="password_repeat" component="div"/>
-                        <button className={classes.btn} type="submit" disabled={isSubmitting}>
-                            Sing In
+                        <button className={classes.btn} type="Тіркелу" disabled={isSubmitting}>
+                            Тіркелу
                         </button>
                     </form>
                 )}

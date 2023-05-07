@@ -7,6 +7,7 @@ import {useEffect} from "react";
 import {fetchProduct} from "../../../store/action.creators/product";
 
 const CreateOrderPage = () => {
+    var user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
     const productsList = useSelector((state) => state.products.items);
 
@@ -15,7 +16,7 @@ const CreateOrderPage = () => {
     }, [dispatch]);
 
 
-    const [customer, setCustomer] = useState(1);
+    const [customer, setCustomer] = useState(user?.id);
     const [products, setProducts] = useState([]);
     const [description, setDescription] = useState('');
     const [count, setCount] = useState(1);
@@ -41,10 +42,10 @@ const CreateOrderPage = () => {
 
     return (
         <div className="container mt-5">
-            <h1>Создать заказ</h1>
+            <h1>Тапсырыс жасау</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="products">Продукты:</label>
+                    <label htmlFor="products">Өнімдер:</label>
                     {productsList?
                         <select multiple id="products" name="products" className="form-control" onChange={(e) => setProducts(Array.from(e.target.selectedOptions, option => option.value))}>
                             {
@@ -58,18 +59,18 @@ const CreateOrderPage = () => {
 
                 </div>
                 <div className="form-group">
-                    <label htmlFor="description">Описание:</label>
+                    <label htmlFor="description">Сипаттама:</label>
                     <textarea id="description" name="description" className="form-control" onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="count">Количество:</label>
+                    <label htmlFor="count">Саны:</label>
                     <input type="number" id="count" name="count" min="1" className="form-control" onChange={(e) => setCount(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="totalAmount">Итоговая сумма:</label>
+                    <label htmlFor="totalAmount">Жалпы сома:</label>
                     <input type="number" id="totalAmount" name="totalAmount" min="0" step="0.01" className="form-control" onChange={(e) => setTotalAmount(e.target.value)} />
                 </div>
-                <button type="submit" className="btn mt-4 btn-primary" >Создать заказ</button>
+                <button type="submit" className="btn mt-4 btn-primary" >Тапсырыс жасау</button>
             </form>
         </div>
     );

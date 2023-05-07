@@ -29,7 +29,7 @@ export const fetchOrder = () => async (dispatch) => {
         // console.log(data)
 
         dispatch(fetchOrderSuccess(response.data.results));
-        debugger
+
     } catch (error) {
         dispatch(fetchOrderFailure(error));
     }

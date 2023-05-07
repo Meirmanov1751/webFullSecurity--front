@@ -29,7 +29,7 @@ export const fetchProduct = () => async (dispatch) => {
         // console.log(data)
 
         dispatch(fetchProductSuccess(response.data.results));
-        debugger
+
     } catch (error) {
         dispatch(fetchProductFailure(error));
     }

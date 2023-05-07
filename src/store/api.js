@@ -7,7 +7,7 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
-  config.headers.Authorization = `token ${localStorage.getItem('token')}`
+  config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`
   return config
 })
 

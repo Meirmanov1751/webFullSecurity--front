@@ -23,7 +23,7 @@ export const fetchExecutorsFailure = (error) => ({
 
 export const fetchExecutors = () => async (dispatch) => {
     dispatch(fetchExecutorsRequest());
-    debugger
+
     try {
         const response = await instance.get(`/api/employee/employee/`);
         // const data = await response.json();

@@ -22,11 +22,11 @@ export const fetchPostsFailure = (error) => ({
 
 export const fetchPosts = () => async (dispatch) => {
     dispatch(fetchPostsRequest());
-    debugger
+
     try {
         const response = await instance.get(`/api/posts/posts/`);
         dispatch(fetchPostsSuccess(response.data));
-        debugger
+
     } catch (error) {
         dispatch(fetchPostsFailure(error));
     }

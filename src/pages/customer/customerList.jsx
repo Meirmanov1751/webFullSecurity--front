@@ -18,7 +18,7 @@ const CustomerList = ({companyId}) => {
 
     return (
         <div>
-            <h2>Список исполнителей</h2>
+            <h2>Орындаушылар тізімі</h2>
             {customer.map(customer => (
                 <CustomerItem key={customer.id} customer={customer}/>
             ))}

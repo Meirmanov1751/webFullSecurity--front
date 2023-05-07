@@ -8,6 +8,7 @@ const ProductItem = ({ product }) => {
                 <p className="executor-card__phone">{product.description}</p>
                 <p className="executor-card__phone">{product.price}</p>
                 <p className="executor-card__phone">{product.executor}</p>
+                <p className="executor-card__phone">{product.is_available}</p>
             </div>
         </div>
     );
